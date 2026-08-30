@@ -39,11 +39,23 @@ export function Player() {
     }, [])
 
     useFrame(() => {
-        if (!body.current || !isLocked) return
+        if (!body.current) return
 
         const translation = body.current.translation()
-        camera.position.set(translation.x, translation.y + 0.7, translation.z)
 
+        // Защита: если персонаж случайно упал ниже уровня пола
+        if (translation.y < -2) {
+            body.current.setTranslation({ x: 0, y: 1, z: 2 }, true)
+            body.current.setLinvel({ x: 0, y: 0, z: 0 }, true)
+            return
+        }
+
+        // Привязываем камеру к глазам персонажа
+        camera.position.set(translation.x, translation.y + 0.8, translation.z)
+
+        if (!isLocked) return
+
+        // Вектор направления взгляда
         const forward = new THREE.Vector3()
         camera.getWorldDirection(forward)
         forward.y = 0
@@ -82,10 +94,11 @@ export function Player() {
             colliders={false}
             mass={1}
             type="dynamic"
-            position={[0, 1, 3]}
+            position={[0, 1, 2]}
             enabledRotations={[false, false, false]}
+            linearDamping={0.5}
         >
-            <CapsuleCollider args={[0.7, 0.4]} />
+            <CapsuleCollider args={[0.5, 0.35]} position={[0, 0.8, 0]} />
         </RigidBody>
     )
 }
