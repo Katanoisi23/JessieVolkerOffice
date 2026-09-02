@@ -27,23 +27,24 @@ export function Experience() {
             camera={{ fov: 65, position: [0, 1.7, 2.5] }}
             style={{ width: '100vw', height: '100vh', display: 'block' }}
         >
-            {/* 1. Мягкий базовый свет */}
-            <ambientLight intensity={0.4} />
+            {/* 1. Мягкий комнатный рассеянный свет */}
+            <ambientLight intensity={0.55} color="#ffffff" />
 
-            {/* 2. Направленный свет с тенями */}
+            {/* 2. СОЛНЦЕ ИЗ МАНСАРДНОГО ОКНА (Светит справа из ниши на стол и пол) */}
             <directionalLight
-                position={[5, 5, 5]}
-                intensity={1.0}
+                position={[3.5, 5.0, -4.5]}
+                intensity={2.2}
+                color="#fffbeb"
                 castShadow
                 shadow-mapSize={[2048, 2048]}
                 shadow-bias={-0.0001}
             />
 
-            {/* 3. Теплый свет над столом */}
-            <pointLight position={[0, 2.8, -1.8]} intensity={2.5} distance={5} color="#fff4e6" />
+            {/* 3. Дневной холодный свет в проеме ниши */}
+            <pointLight position={[2.2, 2.5, -4.5]} intensity={2.0} distance={5} color="#e0f2fe" />
 
-            {/* 4. Рассеянный свет по центру комнаты */}
-            <pointLight position={[0, 1.2, -1.8]} intensity={1.2} distance={6} color="#94a3b8" />
+            {/* 4. Мягкий свет в центре комнаты */}
+            <pointLight position={[-0.5, 3.2, 0]} intensity={1.2} distance={8} color="#f8fafc" />
 
             <Suspense fallback={<Loader />}>
                 <Physics gravity={[0, -9.81, 0]}>
@@ -51,15 +52,15 @@ export function Experience() {
                     <Room />
                 </Physics>
 
-                {/* 5. Постобработка (Bloom и виньетка) */}
+                {/* Постобработка */}
                 <EffectComposer>
                     <Bloom
-                        luminanceThreshold={0.7}
+                        luminanceThreshold={0.75}
                         luminanceSmoothing={0.9}
-                        intensity={0.6}
+                        intensity={0.5}
                         mipmapBlur
                     />
-                    <Vignette eskil={false} offset={0.15} darkness={0.6} />
+                    <Vignette eskil={false} offset={0.15} darkness={0.5} />
                 </EffectComposer>
             </Suspense>
 

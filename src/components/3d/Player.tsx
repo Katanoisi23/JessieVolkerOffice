@@ -43,15 +43,14 @@ export function Player() {
 
         const translation = body.current.translation()
 
-        // Защита от падения в бездну
         if (translation.y < -2) {
-            body.current.setTranslation({ x: 0, y: 1.5, z: 2.5 }, true)
+            body.current.setTranslation({ x: 0, y: 1.5, z: 1.0 }, true)
             body.current.setLinvel({ x: 0, y: 0, z: 0 }, true)
             return
         }
 
-        // Камера на уровне глаз человека (~1.7м)
-        camera.position.set(translation.x, translation.y + 0.85, translation.z)
+        // Высота взгляда на уровне 1.82м
+        camera.position.set(translation.x, translation.y + 1.22, translation.z)
 
         if (!isLocked) return
 
@@ -93,11 +92,11 @@ export function Player() {
             colliders={false}
             mass={1}
             type="dynamic"
-            position={[0, 1.2, 2.5]}
+            position={[0, 1.2, 1.0]}
             enabledRotations={[false, false, false]}
             linearDamping={0.5}
         >
-            <CapsuleCollider args={[0.65, 0.4]} position={[0, 0.85, 0]} />
+            <CapsuleCollider args={[0.75, 0.4]} position={[0, 0.95, 0]} />
         </RigidBody>
     )
 }
