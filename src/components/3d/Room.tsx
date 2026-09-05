@@ -6,11 +6,21 @@ import { OfficeDoor } from './OfficeDoor'
 import { CustomModel } from './CustomModel'
 import { DeskLamp } from './DeskLamp'
 import { WallShelf } from './WallShelf'
+import { Books } from './Books'
+import { JewelleryBox } from './JewelleryBox'
+import { ElectricKettle } from './ElectricKettle'
+import { Books2 } from './Books2'
+import { Trashcan } from './Trashcan'
+import { PencilCup } from './PencilCup'
+import { CoffeeCup } from './CoffeeCup'
+import { WhiteBoard } from './WhiteBoard'
+import { BeanBag } from './BeanBag'
 
 export function Room() {
     const floorTextures = useTexture({
         map: '/textures/plastered_wall_05_diff_4k.jpg',
         aoMap: '/textures/plastered_wall_05_ao_4k.jpg',
+
     })
     floorTextures.map.wrapS = floorTextures.map.wrapT = THREE.RepeatWrapping
     floorTextures.map.repeat.set(3, 4)
@@ -21,7 +31,9 @@ export function Room() {
     wallTexture.wrapS = wallTexture.wrapT = THREE.RepeatWrapping
     wallTexture.repeat.set(2, 2)
 
-    const darkBaseboardColor = '#151518'
+    const darkBaseboardColor = '#d2d2d2ff'
+    const darkBaseboardColor2 = '#d2d2d2ff'
+    const ceilingBaseboardY = 3.40 // 👈 Стык с потолком (3.45 - 0.1/2)
 
     return (
         <group>
@@ -150,9 +162,9 @@ export function Room() {
 
             {/* 8. НАСТЕННАЯ ДВУХЦВЕТНАЯ ПОЛКА (Увеличена и сдвинута левее) */}
             <WallShelf
-                position={[-2.2, 2.15, 1.5]} // 👈 Сдвинута левее вдоль стены (Z = -1.0)
+                position={[-2.2, 2.15, 1.5]}
                 rotation={[0, Math.PI / 2, 0]}
-                scale={1.8}                    // 👈 Увеличен масштаб (в 1.5 раза)
+                scale={1.8}
                 woodColor="#cda376"
                 whiteColor="#ffffff"
             />
@@ -198,52 +210,205 @@ export function Room() {
                 targetHeight={0.1}       // Высота 85 см (измените под реальный размер объекта)
             />
 
+            <CustomModel
+                modelPath="/models/Monitor.glb"
+                position={[-2.1, 1.16, -2]}  // Поставит объект перед вами в комнате
+                rotation={[4.72, 3.2, 1.62]}
+                targetHeight={0.6}       // Высота 85 см (измените под реальный размер объекта)
+            />
+
+            <CustomModel
+                modelPath="/models/Mouse.glb"
+                position={[-1.5, 0.85, -2.3]}  // Поставит объект перед вами в комнате
+                rotation={[1.45, -1.6, 1.5]}
+                targetHeight={0.035}       // Высота 85 см (измените под реальный размер объекта)
+            />
+
+            {/* СТАКАНЧИК С КОФЕ */}
+            <CoffeeCup
+                position={[-1.6, 0.86, -2.5]}
+                rotation={[4.75, 3.15, 1.6]}
+                targetHeight={0.11}
+            />
+
+
+            <CustomModel
+                modelPath="/models/paper1.glb"
+                texturePath="/textures/paper/paper.jpeg"
+                position={[1.55, 0.79, -4.82]}
+                rotation={[1.45, -1.6, 1.5]}
+                targetHeight={0.0125}
+                roughness={0.9}
+            />
+            <Trashcan
+                position={[-2, 0, -1.3]}
+                rotation={[1.45, -1.6, 1.5]}
+                targetHeight={0.3}
+            />
+
+            <CustomModel
+                modelPath="/models/paper2.glb"
+                texturePath="/textures/paper/paper.jpeg"
+                position={[1.4, 0.82, -5.35]}
+                rotation={[1.45, 1.6, 1.5]}
+                targetHeight={0.07}
+                roughness={0.9}
+            />
+
+            <PencilCup
+                position={[-1.9, 0.85, -0.99]}
+                rotation={[0, 0, 0]}
+                targetHeight={0.15}
+            />
+
+            <CustomModel
+                modelPath="/models/paper3.glb"
+                texturePath="/textures/paper/paper.jpeg"
+                position={[1.58, 0.78, -5.3]}
+                rotation={[1.45, -1.6, 1.5]}
+                targetHeight={0.02}
+                roughness={0.9}
+            />
+
+            <CustomModel
+                modelPath="/models/Paper_Stack1.glb"
+                texturePath="/textures/paper_Stack/PaperStack_tex512.png"
+                position={[1.56, 0.78, -5.06]}
+                rotation={[1.4, -1.55, 1.4]}
+                targetHeight={0.0175}
+                roughness={0.9}
+            />
+
+            <CustomModel
+                modelPath="/models/Paper_Stack2.glb"
+                texturePath="/textures/paper_Stack/PaperStack_tex512.png"
+                position={[1.9, 0.78, -5.05]}
+                rotation={[1.45, -1.6, 1.5]}
+                targetHeight={0.05}
+                roughness={0.9}
+            />
+
+            <CustomModel
+                modelPath="/models/Paper_Stack3.glb"
+                texturePath="/textures/paper_Stack/PaperStack_tex512.png"
+                position={[1.9, 0.78, -5.3]}
+                rotation={[1.45, -1.6, 1.5]}
+                targetHeight={0.2}
+                roughness={0.9}
+            />
+
+            <CustomModel
+                modelPath="/models/Speaker.glb"
+                position={[-2.2, 0.81, -2.7]}  // Поставит объект перед вами в комнате
+                rotation={[0, 1.6, 0]}
+                targetHeight={0.35}       // Высота 85 см (измените под реальный размер объекта)
+            />
+            <ElectricKettle
+                position={[1.8, 0.77, -4]}
+                rotation={[0, 1.6, 0]}
+                targetHeight={0.35}
+            />
+
+            {/* ВТОРОЙ НАБОР КНИГ С PBR-ТЕКСТУРАМИ */}
+            <Books2
+                position={[1.8, 0.9, -3.25]}
+                rotation={[0, -1.6, 0]}
+                targetHeight={0.3}
+            />
+
+
+
+            <CustomModel
+                modelPath="/models/Speaker.glb"
+                position={[-2.2, 0.81, -1.3]}  // Поставит объект перед вами в комнате
+                rotation={[0, 1.6, 0]}
+                targetHeight={0.35}       // Высота 85 см (измените под реальный размер объекта)
+            />
+
+            <CustomModel
+                modelPath="/models/Lmp.glb"
+                position={[-2.05, 0.86, -1.05]}
+                rotation={[0, 0, 0]}
+                targetHeight={0.35}
+            />
+
+            {/* МАРКЕРНАЯ ДОСКА С PBR-ТЕКСТУРАМИ */}
+            <WhiteBoard
+                position={[1.7, 0, 0.25]}
+                rotation={[0, 1.56, 0]}
+                targetHeight={1.75}
+            />
+
+            <CustomModel
+                modelPath="/models/MechKeyboard1.glb"
+                position={[-1.5, 0.85, -1.95]}
+                rotation={[4.72, 1.6, 1.55]}
+                targetHeight={0.05}
+            />
+
             {/* Модель мебели Furniture.glb */}
             <CustomModel
                 modelPath="/models/Furniture.glb"
-                position={[-2.1, 1.66, 1]}       // Положение: [X (влево/вправо), Y (высота), Z (вперед/назад)]
-                rotation={[0, 0, 0]}       // Поворот: [наклон X, поворот Y, крен Z]
-                targetHeight={0.3}         // Желаемая высота в метрах (например: 0.75 для стола, 1.8 для шкафа)
+                position={[-2.1, 1.66, 1]}
+                rotation={[0, 0, 0]}
+                targetHeight={0.3}
             />
 
             <CustomModel
                 modelPath="/models/Outledt.glb"
-                position={[2, 0.75, -1.75]}       // Положение: [X (влево/вправо), Y (высота), Z (вперед/назад)]
-                rotation={[0, -1.65, 1.59]}       // Поворот: [наклон X, поворот Y, крен Z]
-                targetHeight={0.15}         // Желаемая высота в метрах (например: 0.75 для стола, 1.8 для шкафа)
+                position={[2, 0.75, -1.75]}
+                rotation={[0, -1.65, 1.59]}
+                targetHeight={0.15}
             />
 
             <CustomModel
                 modelPath="/models/EVPSVPL.glb"
-                position={[-2.2, 1.78, 1.85]}       // Положение: [X (влево/вправо), Y (высота), Z (вперед/назад)]
-                rotation={[0, 0, 0]}       // Поворот: [наклон X, поворот Y, крен Z]
-                targetHeight={0.15}         // Желаемая высота в метрах (например: 0.75 для стола, 1.8 для шкафа)
-            />
-
-            <CustomModel
-                modelPath="/models/Safe.glb"
-                texturePath="/textures/safe/safe-lock-markers.png"
-                position={[-1.2, 1.28, 1.85]}
+                position={[-2.2, 1.78, 1.85]}
                 rotation={[0, 0, 0]}
-                targetHeight={0.45}
-                metalness={0.5}
-                roughness={0.35}
+                targetHeight={0.15}
+                color="#111111"
+                buttonColor="#f8fafc"
+            />
+
+            {/* КРЕСЛА-МЕШКИ С PBR-ТЕКСТУРАМИ */}
+            <BeanBag
+                position={[-1.5, 0, 2.6]}
+                rotation={[0, 2, 0]}
+                targetHeight={1.15}
+            />
+            <BeanBag
+                position={[-1.5, 0, 1.1]}
+                rotation={[0, 1, 0]}
+                targetHeight={1.15}
             />
 
             <CustomModel
-                modelPath="/models/SM_JewelleryBox01_Body.glb"
-                position={[-2.12, 1.665, 1.3]}       // Положение: [X (влево/вправо), Y (высота), Z (вперед/назад)]
-                rotation={[0, 1.55, 0]}       // Поворот: [наклон X, поворот Y, крен Z]
-                targetHeight={0.055}         // Желаемая высота в метрах (например: 0.75 для стола, 1.8 для шкафа)
+                modelPath="/models/Сlutch.glb"
+                position={[-2.1, 2.22, 2.05]}
+                rotation={[-1.55, 0, 1.6]}
+                targetHeight={0.1}
+            />
+
+            <Books
+                position={[-2.12, 2.08, 0.9]}
+                rotation={[0, -1.6, 0]}
+                targetHeight={0.25}
             />
 
             <CustomModel
-                modelPath="/models/SM_JewelleryBox01_Head.glb"
-                position={[-2.12, 1.72, 1.3]}       // Положение: [X (влево/вправо), Y (высота), Z (вперед/назад)]
-                rotation={[0, 1.55, 0]}       // Поворот: [наклон X, поворот Y, крен Z]
-                targetHeight={0.025}         // Желаемая высота в метрах (например: 0.75 для стола, 1.8 для шкафа)
+                modelPath="/models/safe.glb"
+                texturePath="/textures/safe/safe.jpg"
+                position={[1.8, 1.38, -3.2]}
+                rotation={[-1.56, 0, 0]}
+                targetHeight={0.2}
+                metalness={0.6}
+                roughness={0.4}
             />
 
+            <JewelleryBox
+                position={[-2.12, 1.665, 1.3]}
+                rotation={[0, 1.55, 0]}
+            />
             {/* 14. ПЛИНТУСЫ */}
             <group>
                 <mesh position={[-2.335, 0.05, 0]} rotation={[0, Math.PI / 2, 0]}>
@@ -292,18 +457,63 @@ export function Room() {
                     <meshStandardMaterial color="#ffffff" roughness={0.4} />
                 </mesh>
             </group>
+
+            {/* 15. ПОТОЛОЧНЫЕ ПЛИНТУСЫ (КАРНИЗ) */}
+            <group>
+                {/* Левая стена */}
+                <mesh position={[-2.335, ceilingBaseboardY, 0]} rotation={[0, Math.PI / 2, 0]}>
+                    <boxGeometry args={[6.7, 0.1, 0.03]} />
+                    <meshStandardMaterial color={darkBaseboardColor2} roughness={0.5} />
+                </mesh>
+
+                {/* Передняя стена слева от двери */}
+                <mesh position={[-1.51, ceilingBaseboardY, 3.335]}>
+                    <boxGeometry args={[1.7, 0.1, 0.03]} />
+                    <meshStandardMaterial color={darkBaseboardColor2} roughness={0.5} />
+                </mesh>
+
+                {/* Передняя стена над дверным проемом */}
+                <mesh position={[-0.12, ceilingBaseboardY, 3.335]}>
+                    <boxGeometry args={[1.1, 0.1, 0.03]} />
+                    <meshStandardMaterial color={darkBaseboardColor2} roughness={0.5} />
+                </mesh>
+
+                {/* Передняя стена справа от двери */}
+                <mesh position={[1.275, ceilingBaseboardY, 3.335]}>
+                    <boxGeometry args={[1.7, 0.1, 0.03]} />
+                    <meshStandardMaterial color={darkBaseboardColor2} roughness={0.5} />
+                </mesh>
+
+                {/* Задняя стена слева от ниши */}
+                <mesh position={[-1.08, ceilingBaseboardY, -3.335]}>
+                    <boxGeometry args={[3.26, 0.1, 0.03]} />
+                    <meshStandardMaterial color={darkBaseboardColor2} roughness={0.5} />
+                </mesh>
+
+                {/* Правая стена */}
+                <mesh position={[2.035, ceilingBaseboardY, 0.15]} rotation={[0, Math.PI / 2, 0]}>
+                    <boxGeometry args={[7.3, 0.1, 0.03]} />
+                    <meshStandardMaterial color={darkBaseboardColor2} roughness={0.5} />
+                </mesh>
+
+                {/* Ниша справа */}
+                <mesh position={[2.035, ceilingBaseboardY, -4.75]} rotation={[0, Math.PI / 2, 0]}>
+                    <boxGeometry args={[2.5, 0.1, 0.03]} />
+                    <meshStandardMaterial color={darkBaseboardColor2} roughness={0.5} />
+                </mesh>
+
+                {/* Ниша слева */}
+                <mesh position={[0.565, ceilingBaseboardY, -4.75]} rotation={[0, Math.PI / 2, 0]}>
+                    <boxGeometry args={[2.5, 0.1, 0.03]} />
+                    <meshStandardMaterial color={darkBaseboardColor2} roughness={0.5} />
+                </mesh>
+
+                {/* Задняя стена ниши */}
+                <mesh position={[1.3, ceilingBaseboardY, -5.835]}>
+                    <boxGeometry args={[1.5, 0.1, 0.03]} />
+                    <meshStandardMaterial color={darkBaseboardColor2} roughness={0.5} />
+                </mesh>
+            </group>
         </group>
     )
 }
-
-
-
-
-//  {/* 6. НОВАЯ 3D-МОДЕЛЬ СТОЛА WORKCENTER */}
-//             <CustomModel
-//                 modelPath="/models/WorkCenter.glb"
-//                 position={[-1.45, 0.4, -2]}
-//                 rotation={[Math.PI / 2, 0, 1.56]} // 👈 -Math.PI / 2 по оси X ставит стол на ножки
-//                 targetHeight={0.75}
-//                 color="#d8be9b"
-//             />
