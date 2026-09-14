@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080">
+  <defs>
+    <radialGradient id="bg-5" cx="40%" cy="40%" r="80%">
+      <stop offset="0%" stop-color="#181b24" />
+      <stop offset="100%" stop-color="#0a0b0e" />
+    </radialGradient>
+    <linearGradient id="accent-5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8b5cf6" />
+      <stop offset="100%" stop-color="#1e1b4b" />
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="1920" height="1080" fill="url(#bg-5)" />
+
+  <g stroke="#334155" stroke-width="1" opacity="0.15">
+    <line x1="120" y1="0" x2="120" y2="1080" />
+    <line x1="1800" y1="0" x2="1800" y2="1080" />
+    <line x1="0" y1="960" x2="1920" y2="960" />
+    <line x1="0" y1="120" x2="1920" y2="120" />
+  </g>
+
+  <g transform="translate(140, 90)">
+    <circle cx="10" cy="10" r="6" fill="#22c55e" />
+    <text x="26" y="15" font-family="'Courier New', monospace" font-size="14" font-weight="bold" fill="#94a3b8" letter-spacing="2">
+      PROJECTOR 4K LIVE • INPUT: WHITEBOARD CASE #5
+    </text>
+    <text x="1640" y="15" font-family="'Courier New', monospace" font-size="14" font-weight="bold" fill="#38bdf8" text-anchor="end" letter-spacing="2">
+      SONY VPL-VW885ES
+    </text>
+  </g>
+
+  <g transform="translate(140, 200)">
+    <rect x="0" y="0" width="280" height="36" rx="6" fill="#8b5cf6" opacity="0.2" stroke="#8b5cf6" stroke-width="1.5" />
+    <text x="140" y="23" font-family="'Montserrat', Arial, sans-serif" font-weight="800" font-size="13" fill="#8b5cf6" text-anchor="middle" letter-spacing="2">
+      PRODUCTION ENGINE
+    </text>
+  </g>
+
+  <text x="140" y="330" font-family="'Montserrat', Arial, sans-serif" font-weight="900" font-size="76" fill="#ffffff" letter-spacing="2">
+    INTERACTIVE WEB APP SHOWCASE
+  </text>
+  <text x="140" y="390" font-family="'Montserrat', Arial, sans-serif" font-weight="500" font-size="26" fill="#94a3b8">
+    Dynamic UI, Material Customizer &amp; 3D Viewer
+  </text>
+
+  <text x="140" y="480" font-family="Arial, sans-serif" font-size="22" fill="#cbd5e1" width="900">
+    Deep modular application architecture with real-time PBR material customization, lighting controls, and interactive presentation modes.
+  </text>
+
+  <g transform="translate(140, 560)">
+    
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="290" height="120" rx="8" fill="#11141c" stroke="#1e293b" stroke-width="1.5" />
+        <text x="24" y="45" font-family="'Courier New', monospace" font-weight="bold" font-size="12" fill="#8b5cf6" letter-spacing="2">METRIC 01</text>
+        <text x="24" y="85" font-family="'Montserrat', Arial, sans-serif" font-weight="bold" font-size="18" fill="#f8fafc">PBR Pipeline</text>
+      </g>
+  
+      <g transform="translate(320, 0)">
+        <rect x="0" y="0" width="290" height="120" rx="8" fill="#11141c" stroke="#1e293b" stroke-width="1.5" />
+        <text x="24" y="45" font-family="'Courier New', monospace" font-weight="bold" font-size="12" fill="#8b5cf6" letter-spacing="2">METRIC 02</text>
+        <text x="24" y="85" font-family="'Montserrat', Arial, sans-serif" font-weight="bold" font-size="18" fill="#f8fafc">Zero Latency</text>
+      </g>
+  
+      <g transform="translate(640, 0)">
+        <rect x="0" y="0" width="290" height="120" rx="8" fill="#11141c" stroke="#1e293b" stroke-width="1.5" />
+        <text x="24" y="45" font-family="'Courier New', monospace" font-weight="bold" font-size="12" fill="#8b5cf6" letter-spacing="2">METRIC 03</text>
+        <text x="24" y="85" font-family="'Montserrat', Arial, sans-serif" font-weight="bold" font-size="18" fill="#f8fafc">Multi-Device Responsive</text>
+      </g>
+  
+  </g>
+
+  <g transform="translate(1220, 240)">
+    <rect x="0" y="0" width="560" height="620" rx="16" fill="#11141d" stroke="#334155" stroke-width="2" />
+    <circle cx="280" cy="280" r="160" fill="url(#accent-5)" opacity="0.85" />
+    <circle cx="280" cy="280" r="180" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="10 15" opacity="0.7" />
+    <circle cx="280" cy="280" r="220" fill="none" stroke="#f8fafc" stroke-width="1" opacity="0.2" />
+    
+    <text x="280" y="290" font-family="'Montserrat', Arial, sans-serif" font-weight="900" font-size="36" fill="#ffffff" text-anchor="middle" letter-spacing="3">
+      GRAFFICO
+    </text>
+    <text x="280" y="330" font-family="'Courier New', monospace" font-size="16" fill="#94a3b8" text-anchor="middle" letter-spacing="3">
+      EXCELLENCE 2026
+    </text>
+
+    <rect x="40" y="500" width="480" height="80" rx="8" fill="#0b0d13" stroke="#1e293b" />
+    <text x="70" y="546" font-family="'Montserrat', Arial, sans-serif" font-weight="bold" font-size="16" fill="#f8fafc">
+      🏆 Official Selection Showcase
+    </text>
+  </g>
+
+  <g transform="translate(140, 990)">
+    <text x="0" y="0" font-family="'Courier New', monospace" font-size="14" fill="#64748b" letter-spacing="2">
+      PROJECTION ACTIVE • CASE 05 OF 06 • PRESS E ON PROJECTOR TO POWER OFF
+    </text>
+  </g>
+</svg>

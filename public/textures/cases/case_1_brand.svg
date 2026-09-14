@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 660" width="880" height="660">
+  <defs>
+    <!-- Картонная подложка крафт -->
+    <linearGradient id="kraft-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#cfc3af" />
+      <stop offset="50%" stop-color="#c5b7a2" />
+      <stop offset="100%" stop-color="#b8a994" />
+    </linearGradient>
+
+    <!-- Тень от белого листа на картон -->
+    <filter id="sheet-shadow-1" x="-6%" y="-6%" width="112%" height="114%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#3d3326" flood-opacity="0.32" />
+    </filter>
+
+    <!-- Красная полоса Graffico -->
+    <linearGradient id="red-banner-1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b91c1c" />
+      <stop offset="45%" stop-color="#dc2626" />
+      <stop offset="80%" stop-color="#c81e1e" />
+      <stop offset="100%" stop-color="#991b1b" />
+    </linearGradient>
+
+    <!-- Градиент золотого логотипа -->
+    <radialGradient id="gold-emblem-1" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="35%" stop-color="#f59e0b" />
+      <stop offset="75%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#92400e" />
+    </radialGradient>
+
+    <!-- Металлическая булавка -->
+    <radialGradient id="pin-head-1" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="40%" stop-color="#e2e8f0" />
+      <stop offset="85%" stop-color="#64748b" />
+      <stop offset="100%" stop-color="#334155" />
+    </radialGradient>
+  </defs>
+
+  <!-- 1. Крафтовая картонная подложка -->
+  <rect x="0" y="0" width="880" height="660" rx="3" fill="url(#kraft-grad-1)" />
+  <rect x="0" y="0" width="880" height="660" rx="3" fill="none" stroke="#aa9b86" stroke-width="1.5" />
+
+  <!-- 2. Белый лист бумаги с полями -->
+  <g filter="url(#sheet-shadow-1)">
+    <rect x="40" y="45" width="800" height="570" rx="2" fill="#faf9f6" />
+    <rect x="40" y="45" width="800" height="570" rx="2" fill="none" stroke="#e8e4db" stroke-width="1" />
+  </g>
+
+  <!-- 3. Широкая горизонтальная красная плашка Graffico по центру листа -->
+  <rect x="40" y="165" width="800" height="330" fill="url(#red-banner-1)" />
+
+  <!-- Тонкие декоративные полосы по краям красной плашки -->
+  <rect x="40" y="165" width="800" height="4" fill="#ef4444" opacity="0.6" />
+  <rect x="40" y="491" width="800" height="4" fill="#7f1d1d" opacity="0.6" />
+
+  <!-- 4. Логотип: эмблема слева (трилистник/звезда в круге) -->
+  <g transform="translate(100, 240)">
+    <!-- Мягкий светлый ореол под эмблемой -->
+    <circle cx="85" cy="85" r="72" fill="#ffffff" opacity="0.18" />
+    <circle cx="85" cy="85" r="62" fill="#000000" opacity="0.12" />
+
+    <!-- Внешнее кольцо -->
+    <circle cx="85" cy="85" r="60" fill="none" stroke="#fef08a" stroke-width="3" opacity="0.4" />
+
+    <!-- Стилизованная органическая форма Graffico (золотые лепестки) -->
+    <path d="M85 30 
+             C105 30, 125 45, 132 68 
+             C142 100, 120 132, 92 138 
+             C65 144, 38 128, 38 100 
+             C38 72, 60 55, 78 52 
+             C92 50, 98 62, 95 72 
+             C90 85, 72 88, 70 76
+             C68 68, 75 64, 82 66" 
+          fill="url(#gold-emblem-1)" />
+
+    <circle cx="85" cy="85" r="16" fill="#fef08a" opacity="0.9" />
+    <circle cx="85" cy="85" r="9" fill="#92400e" />
+  </g>
+
+  <!-- 5. Типографика GRAFFICO справа -->
+  <text x="310" y="360" 
+        font-family="'Montserrat', 'Arial Black', 'Helvetica Neue', sans-serif" 
+        font-weight="900" 
+        font-size="94" 
+        fill="#ffffff" 
+        letter-spacing="5">
+    GRAFFICO
+  </text>
+
+  <!-- 6. Металлические булавки по углам крафтового листа -->
+  <!-- Верхний левый угол -->
+  <circle cx="28" cy="28" r="8" fill="#000000" opacity="0.3" transform="translate(2, 3)" />
+  <circle cx="28" cy="28" r="7" fill="url(#pin-head-1)" stroke="#475569" stroke-width="0.8" />
+  <circle cx="26" cy="26" r="2.2" fill="#ffffff" opacity="0.75" />
+
+  <!-- Верхний правый угол -->
+  <circle cx="852" cy="28" r="8" fill="#000000" opacity="0.3" transform="translate(2, 3)" />
+  <circle cx="852" cy="28" r="7" fill="url(#pin-head-1)" stroke="#475569" stroke-width="0.8" />
+  <circle cx="850" cy="26" r="2.2" fill="#ffffff" opacity="0.75" />
+
+  <!-- Нижний левый угол -->
+  <circle cx="28" cy="632" r="8" fill="#000000" opacity="0.3" transform="translate(2, 3)" />
+  <circle cx="28" cy="632" r="7" fill="url(#pin-head-1)" stroke="#475569" stroke-width="0.8" />
+  <circle cx="26" cy="630" r="2.2" fill="#ffffff" opacity="0.75" />
+
+  <!-- Нижний правый угол -->
+  <circle cx="852" cy="632" r="8" fill="#000000" opacity="0.3" transform="translate(2, 3)" />
+  <circle cx="852" cy="632" r="7" fill="url(#pin-head-1)" stroke="#475569" stroke-width="0.8" />
+  <circle cx="850" cy="630" r="2.2" fill="#ffffff" opacity="0.75" />
+</svg>

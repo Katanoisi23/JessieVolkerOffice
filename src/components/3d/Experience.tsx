@@ -1,50 +1,132 @@
-import { Suspense } from 'react'
-import { Canvas } from '@react-three/fiber'
-import { PointerLockControls, Html } from '@react-three/drei'
+import { Suspense, useEffect } from 'react'
+import { Canvas, useThree, useFrame } from '@react-three/fiber'
+import { PointerLockControls } from '@react-three/drei'
 import { Physics } from '@react-three/rapier'
-import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing'
+import * as THREE from 'three'
 import { Room } from './Room'
 import { Player } from './Player'
+import { PostEffects } from './PostEffects'
 import { useOfficeStore } from '../../stores/useOfficeStore'
+import { getGlobalAudioListener } from '../../utils/audioSystem'
 
 function Loader() {
-    return (
-        <Html center>
-            <div className="flex flex-col items-center justify-center p-4 bg-neutral-900/90 border border-neutral-800 rounded-lg text-white font-mono text-sm shadow-xl">
-                <div className="w-6 h-6 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin mb-2" />
-                <span>Загрузка офиса...</span>
-            </div>
-        </Html>
-    )
+    return null
+}
+
+function AudioListenerSetup() {
+    const { camera } = useThree()
+
+    useEffect(() => {
+        const listener = getGlobalAudioListener()
+        camera.add(listener)
+        return () => {
+            camera.remove(listener)
+        }
+    }, [camera])
+
+    useFrame(() => {
+        const listener = getGlobalAudioListener()
+        // КРИТИЧНО: сначала обновляем мировую матрицу камеры, затем слушателя Three.js
+        camera.updateMatrixWorld()
+        listener.updateMatrixWorld()
+    })
+
+    return null
 }
 
 export function Experience() {
     const setIsLocked = useOfficeStore((state) => state.setIsLocked)
+    const isRoomLightOn = useOfficeStore((state) => state.isRoomLightOn)
+    const isRadioFocused = useOfficeStore((state) => state.isRadioFocused)
+    const isComputerFocused = useOfficeStore((state) => state.isComputerFocused)
+    const isScreenFocused = useOfficeStore((state) => state.isScreenFocused)
+    const hasEntered = useOfficeStore((state) => state.hasEntered)
+
+    const isInteracting = isRadioFocused || isComputerFocused || isScreenFocused
+
+    // При входе в режим взаимодействия (радио, монитор) принудительно освобождаем курсор
+    useEffect(() => {
+        if (isInteracting) {
+            document.exitPointerLock?.()
+            setIsLocked(false)
+        }
+    }, [isInteracting, setIsLocked])
 
     return (
         <Canvas
             shadows
-            camera={{ fov: 65, position: [0, 1.7, 2.5] }}
+            dpr={[1, 1.5]}
+            camera={{ fov: 65, position: [-0.15, 1.55, 2.8] }}
+            gl={{
+                antialias: true,
+                toneMapping: THREE.ACESFilmicToneMapping,
+                toneMappingExposure: 0.85,
+                powerPreference: 'high-performance',
+            }}
             style={{ width: '100vw', height: '100vh', display: 'block' }}
         >
-            {/* 1. Мягкий комнатный рассеянный свет */}
-            <ambientLight intensity={0.55} color="#ffffff" />
+            {/* Пространственный 3D-звук (привязка ушей слушателя к камере игрока) */}
+            <AudioListenerSetup />
 
-            {/* 2. СОЛНЦЕ ИЗ МАНСАРДНОГО ОКНА (Светит справа из ниши на стол и пол) */}
-            <directionalLight
-                position={[3.5, 5.0, -4.5]}
-                intensity={2.2}
-                color="#fffbeb"
-                castShadow
-                shadow-mapSize={[2048, 2048]}
-                shadow-bias={-0.0001}
+            {/* Мягкая атмосферная глубина */}
+            <fog
+                attach="fog"
+                args={[isRoomLightOn ? '#171f2b' : '#070b14', 9.0, 26.0]}
             />
 
-            {/* 3. Дневной холодный свет в проеме ниши */}
-            <pointLight position={[2.2, 2.5, -4.5]} intensity={2.0} distance={5} color="#e0f2fe" />
+            {/* 1. Мягкий комнатный рассеянный свет */}
+            <ambientLight
+                intensity={isRoomLightOn ? 0.38 : 0.04}
+                color={isRoomLightOn ? '#ffffff' : '#0d1527'}
+            />
 
-            {/* 4. Мягкий свет в центре комнаты */}
-            <pointLight position={[-0.5, 3.2, 0]} intensity={1.2} distance={8} color="#f8fafc" />
+            {/* 2. ВЕРХНИЙ СВЕТ ОФИСА (быстрые тени 1024x1024) */}
+            <directionalLight
+                position={[2.5, 4.8, 1.5]}
+                intensity={isRoomLightOn ? 0.95 : 0}
+                color="#fffcf5"
+                castShadow={true}
+                shadow-mapSize={[1024, 1024]}
+                shadow-bias={-0.0001}
+                shadow-normalBias={0.02}
+                shadow-camera-near={0.5}
+                shadow-camera-far={12}
+                shadow-camera-left={-4}
+                shadow-camera-right={4}
+                shadow-camera-top={4}
+                shadow-camera-bottom={-4}
+            />
+
+            {/* 3. Равномерная подсветка рабочей зоны */}
+            <pointLight
+                position={[-0.5, 2.3, -1.2]}
+                intensity={isRoomLightOn ? 0.35 : 0}
+                distance={9}
+                decay={1.2}
+                color="#ffffff"
+            />
+            <pointLight
+                position={[0.5, 2.3, 1.2]}
+                intensity={isRoomLightOn ? 0.28 : 0}
+                distance={9}
+                decay={1.2}
+                color="#ffffff"
+            />
+
+            {/* 4. Мягкий дневной свет из мансардного окна */}
+            <pointLight
+                position={[1.3, 2.2, -4.4]}
+                intensity={isRoomLightOn ? 0.45 : 0.25}
+                distance={6.0}
+                decay={1.2}
+                color="#dbeafe"
+            />
+            <directionalLight
+                position={[2.8, 4.2, -5.8]}
+                intensity={isRoomLightOn ? 0.35 : 0.18}
+                color="#e0f2fe"
+                castShadow={false}
+            />
 
             <Suspense fallback={<Loader />}>
                 <Physics gravity={[0, -9.81, 0]}>
@@ -52,19 +134,11 @@ export function Experience() {
                     <Room />
                 </Physics>
 
-                {/* Постобработка */}
-                <EffectComposer>
-                    <Bloom
-                        luminanceThreshold={0.75}
-                        luminanceSmoothing={0.9}
-                        intensity={0.5}
-                        mipmapBlur
-                    />
-                    <Vignette eskil={false} offset={0.15} darkness={0.5} />
-                </EffectComposer>
+                <PostEffects />
             </Suspense>
 
             <PointerLockControls
+                enabled={hasEntered && !isInteracting}
                 onLock={() => setIsLocked(true)}
                 onUnlock={() => setIsLocked(false)}
             />

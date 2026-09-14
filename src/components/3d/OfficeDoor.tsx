@@ -1,12 +1,18 @@
-import * as THREE from 'three'
 
-export function OfficeDoor() {
-    // Цвета точно как на фото
-    const frameColor = '#3f3a35' // Темные графитово-коричневые наличники
-    const doorColor = '#bc8d59' // Карамельно-древесное полотно двери
-    const doorEdgeColor = '#d9aa74' // Светлый деревянный торец
-    const handleColor = '#211f1e' // Матовая черная ручка
-    const stickerColor = '#fef08a' // Желтый стикер
+interface OfficeDoorProps {
+    doorColor?: string
+    doorEdgeColor?: string
+    frameColor?: string
+    handleColor?: string
+}
+
+export function OfficeDoor({
+    doorColor = '#f5f4ef',       // Белое сатиновое полотно двери
+    doorEdgeColor = '#eae8e3',   // Светлый торец
+    frameColor = '#f0eee8',      // Белая дверная коробка и наличники
+    handleColor = '#8e949f',     // Шлифованная серая металлическая ручка
+}: OfficeDoorProps = {}) {
+    const stickerColor = '#fef08a' // Желтый стикер на торце
 
     return (
         <group position={[-0.15, 0, 3.5]}>
@@ -43,21 +49,21 @@ export function OfficeDoor() {
                     <meshStandardMaterial color={doorEdgeColor} roughness={0.35} />
                 </mesh>
 
-                {/* 3. ГОРИЗОНТАЛЬНАЯ ЧЕРНАЯ РУЧКА-ПЛАНКА (Как на фото) */}
+                {/* 3. ГОРИЗОНТАЛЬНАЯ СЕРАЯ МЕТАЛЛИЧЕСКАЯ РУЧКА */}
                 <group position={[-0.8, 1.02, -0.038]}>
                     {/* Сама планка ручки */}
                     <mesh castShadow>
                         <boxGeometry args={[0.18, 0.03, 0.02]} />
-                        <meshStandardMaterial color={handleColor} roughness={0.3} metalness={0.4} />
+                        <meshStandardMaterial color={handleColor} roughness={0.25} metalness={0.85} />
                     </mesh>
                     {/* Крепление ручки к двери */}
                     <mesh position={[0.06, 0, 0.015]}>
                         <boxGeometry args={[0.03, 0.02, 0.015]} />
-                        <meshStandardMaterial color={handleColor} roughness={0.3} />
+                        <meshStandardMaterial color={handleColor} roughness={0.25} metalness={0.85} />
                     </mesh>
                     <mesh position={[-0.06, 0, 0.015]}>
                         <boxGeometry args={[0.03, 0.02, 0.015]} />
-                        <meshStandardMaterial color={handleColor} roughness={0.3} />
+                        <meshStandardMaterial color={handleColor} roughness={0.25} metalness={0.85} />
                     </mesh>
                 </group>
 

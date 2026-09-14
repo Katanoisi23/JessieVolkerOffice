@@ -1,4 +1,4 @@
-import { useMemo, useEffect, useRef } from 'react'
+import { useMemo, useEffect } from 'react'
 import { useGLTF, Center } from '@react-three/drei'
 import * as THREE from 'three'
 
@@ -62,7 +62,7 @@ export function JewelleryBox({
                     mesh.castShadow = true
                     mesh.receiveShadow = true
                     mesh.frustumCulled = false
-                    if (mesh.geometry) mesh.geometry.computeVertexNormals()
+                    if (mesh.geometry && !mesh.geometry.attributes.normal) mesh.geometry.computeVertexNormals()
                     mesh.material = material
                 }
             })

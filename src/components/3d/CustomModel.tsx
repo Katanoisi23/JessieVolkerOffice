@@ -13,8 +13,14 @@ interface CustomModelProps {
     scale?: number | [number, number, number]
     color?: string
     buttonColor?: string // Для моделей с кнопкой/застёжкой
+    upperColor?: string // Для тапочек/обуви
+    soleColor?: string
     roughness?: number
     metalness?: number
+    clearcoat?: number
+    clearcoatRoughness?: number
+    castShadow?: boolean
+    receiveShadow?: boolean
 }
 
 function normalizeAndApplyMaterial(
@@ -24,22 +30,58 @@ function normalizeAndApplyMaterial(
     color?: string,
     buttonColor?: string,
     roughness = 0.45,
-    metalness = 0.05
+    metalness = 0.05,
+    clearcoat = 0,
+    clearcoatRoughness = 0.2,
+    castShadow = true,
+    receiveShadow = true,
+    modelPath?: string,
+    upperColor?: string,
+    soleColor?: string
 ) {
     const meshes: THREE.Mesh[] = []
     object.traverse((child) => {
         if ((child as THREE.Mesh).isMesh) {
             const mesh = child as THREE.Mesh
-            mesh.castShadow = true
-            mesh.receiveShadow = true
+            mesh.castShadow = castShadow
+            mesh.receiveShadow = receiveShadow
             mesh.frustumCulled = false
 
-            if (mesh.geometry) {
+            if (mesh.geometry && !mesh.geometry.attributes.normal) {
                 mesh.geometry.computeVertexNormals()
             }
             meshes.push(mesh)
         }
     })
+
+    // Проверяем, является ли модель тапочками (Slipper.glb)
+    const isSlipper = /slipper/i.test(modelPath || '') || (meshes.length === 4 && meshes.some(m => m.name === 'Node1' || m.name === 'Node3'))
+
+    if (isSlipper) {
+        // Настройка PBR-материалов в точном соответствии с фото:
+        // - Верх (свод): мягкая белая ткань
+        // - Подошва: тёплый карамельно-горчичный оттенок (охра/тан)
+        const upperMat = new THREE.MeshStandardMaterial({
+            color: new THREE.Color(upperColor || '#f5f4ef'),
+            roughness: 0.88,
+            metalness: 0.0,
+            flatShading: true,
+            side: THREE.DoubleSide,
+        })
+        const soleMat = new THREE.MeshStandardMaterial({
+            color: new THREE.Color(soleColor || '#cc8327'),
+            roughness: 0.55,
+            metalness: 0.02,
+            flatShading: true,
+            side: THREE.DoubleSide,
+        })
+
+        meshes.forEach((mesh) => {
+            const isUpper = mesh.name === 'Node1' || mesh.name === 'Node3' || (new THREE.Box3().setFromObject(mesh).max.y > 1.65)
+            mesh.material = isUpper ? upperMat : soleMat
+        })
+        return
+    }
 
     // Если передан buttonColor и в модели 2 детали — определяем меньшую как кнопку
     let buttonMesh: THREE.Mesh | null = null
@@ -57,14 +99,20 @@ function normalizeAndApplyMaterial(
         color: new THREE.Color(buttonColor || '#ffffff'),
         roughness: 0.25,
         metalness: 0.7,
+        flatShading: true,
         side: THREE.DoubleSide,
     })
 
-    // Основной материал корпуса
-    const bodyMaterial = new THREE.MeshStandardMaterial({
+    // Основной материал корпуса (MeshPhysicalMaterial для стильного пластика/покрытий)
+    const bodyMaterial = new THREE.MeshPhysicalMaterial({
         color: new THREE.Color(color || '#151515'),
         roughness,
         metalness,
+        clearcoat,
+        clearcoatRoughness,
+        ior: 1.5,
+        specularIntensity: 0.7,
+        flatShading: true,
         side: THREE.DoubleSide,
     })
 
@@ -75,6 +123,7 @@ function normalizeAndApplyMaterial(
             color: new THREE.Color('#ffffff'),
             roughness: 0.3,
             metalness: 0.8,
+            flatShading: true,
             side: THREE.DoubleSide,
         })
         : bodyMaterial
@@ -100,6 +149,7 @@ function normalizeAndApplyMaterial(
                 color: new THREE.Color(color || '#ffffff'),
                 roughness,
                 metalness,
+                flatShading: true,
                 side: THREE.DoubleSide,
             })
         } else {
@@ -114,10 +164,16 @@ interface ModelSubProps {
     texturePath?: string
     color?: string
     buttonColor?: string
+    upperColor?: string
+    soleColor?: string
     roughness?: number
     metalness?: number
+    clearcoat?: number
+    clearcoatRoughness?: number
     targetHeight?: number
     scale?: number | [number, number, number]
+    castShadow?: boolean
+    receiveShadow?: boolean
 }
 
 function GltfModel({
@@ -126,19 +182,48 @@ function GltfModel({
     texturePath,
     color,
     buttonColor,
+    upperColor,
+    soleColor,
     roughness,
     metalness,
+    clearcoat,
+    clearcoatRoughness,
     targetHeight,
     scale,
+    castShadow,
+    receiveShadow,
 }: ModelSubProps) {
     const gltf = useGLTF(modelPath)
     const scene = Array.isArray(gltf) ? gltf[0].scene : gltf.scene
-    const clonedScene = useMemo(() => scene.clone(true), [scene])
+    const clonedScene = useMemo(() => {
+        const s = scene.clone(true)
+        s.traverse((child: THREE.Object3D) => {
+            if ((child as THREE.Mesh).isMesh) {
+                child.frustumCulled = false
+            }
+        })
+        return s
+    }, [scene])
     const groupRef = useRef<THREE.Group>(null)
 
     useEffect(() => {
-        normalizeAndApplyMaterial(clonedScene, texture, texturePath, color, buttonColor, roughness, metalness)
-    }, [clonedScene, texture, texturePath, color, buttonColor, roughness, metalness])
+        normalizeAndApplyMaterial(
+            clonedScene,
+            texture,
+            texturePath,
+            color,
+            buttonColor,
+            roughness,
+            metalness,
+            clearcoat,
+            clearcoatRoughness,
+            castShadow,
+            receiveShadow,
+            modelPath,
+            upperColor,
+            soleColor
+        )
+    }, [clonedScene, texture, texturePath, color, buttonColor, roughness, metalness, clearcoat, clearcoatRoughness, castShadow, receiveShadow, modelPath, upperColor, soleColor])
 
     const defaultScale: [number, number, number] = [1, 1, 1]
 
@@ -171,17 +256,46 @@ function ObjModel({
     texturePath,
     color,
     buttonColor,
+    upperColor,
+    soleColor,
     roughness,
     metalness,
+    clearcoat,
+    clearcoatRoughness,
     targetHeight,
     scale,
+    castShadow,
+    receiveShadow,
 }: ModelSubProps) {
     const obj = useLoader(OBJLoader, modelPath)
-    const clonedObj = useMemo(() => obj.clone(true), [obj])
+    const clonedObj = useMemo(() => {
+        const o = obj.clone(true)
+        o.traverse((child: THREE.Object3D) => {
+            if ((child as THREE.Mesh).isMesh) {
+                child.frustumCulled = false
+            }
+        })
+        return o
+    }, [obj])
 
     useEffect(() => {
-        normalizeAndApplyMaterial(clonedObj, texture, texturePath, color, buttonColor, roughness, metalness)
-    }, [clonedObj, texture, texturePath, color, buttonColor, roughness, metalness])
+        normalizeAndApplyMaterial(
+            clonedObj,
+            texture,
+            texturePath,
+            color,
+            buttonColor,
+            roughness,
+            metalness,
+            clearcoat,
+            clearcoatRoughness,
+            castShadow,
+            receiveShadow,
+            modelPath,
+            upperColor,
+            soleColor
+        )
+    }, [clonedObj, texture, texturePath, color, buttonColor, roughness, metalness, clearcoat, clearcoatRoughness, castShadow, receiveShadow, modelPath, upperColor, soleColor])
 
     const defaultScale: [number, number, number] = [1, 1, 1]
 
@@ -217,10 +331,17 @@ export function CustomModel({
     scale = 1,
     color,
     buttonColor,
+    upperColor,
+    soleColor,
     roughness,
     metalness,
+    clearcoat,
+    clearcoatRoughness,
+    castShadow,
+    receiveShadow = true,
 }: CustomModelProps) {
     const isObj = useMemo(() => modelPath.toLowerCase().endsWith('.obj'), [modelPath])
+    const isSlipper = useMemo(() => /slipper/i.test(modelPath), [modelPath])
     const [loadedTexture, setLoadedTexture] = useState<THREE.Texture | null>(null)
 
     useEffect(() => {
@@ -247,6 +368,8 @@ export function CustomModel({
     const effectiveColor = color ?? (buttonColor ? '#151515' : texturePath ? '#ffffff' : '#d8be9b')
     const effectiveRoughness = roughness ?? (buttonColor ? 0.65 : texturePath ? 0.4 : 0.45)
     const effectiveMetalness = metalness ?? (texturePath ? 0.6 : 0.05)
+    // Мелкие объекты (< 15 см) не отбрасывают тени для экономии производительности, но тапочки на полу должны отбрасывать контактную тень
+    const effectiveCastShadow = castShadow ?? (isSlipper ? true : targetHeight !== undefined ? targetHeight >= 0.15 : true)
 
     return (
         <group position={position} rotation={rotation}>
@@ -257,10 +380,16 @@ export function CustomModel({
                     texturePath={texturePath}
                     color={effectiveColor}
                     buttonColor={buttonColor}
+                    upperColor={upperColor}
+                    soleColor={soleColor}
                     roughness={effectiveRoughness}
                     metalness={effectiveMetalness}
+                    clearcoat={clearcoat}
+                    clearcoatRoughness={clearcoatRoughness}
                     targetHeight={targetHeight}
                     scale={scale}
+                    castShadow={effectiveCastShadow}
+                    receiveShadow={receiveShadow}
                 />
             ) : (
                 <GltfModel
@@ -269,10 +398,16 @@ export function CustomModel({
                     texturePath={texturePath}
                     color={effectiveColor}
                     buttonColor={buttonColor}
+                    upperColor={upperColor}
+                    soleColor={soleColor}
                     roughness={effectiveRoughness}
                     metalness={effectiveMetalness}
+                    clearcoat={clearcoat}
+                    clearcoatRoughness={clearcoatRoughness}
                     targetHeight={targetHeight}
                     scale={scale}
+                    castShadow={effectiveCastShadow}
+                    receiveShadow={receiveShadow}
                 />
             )}
         </group>

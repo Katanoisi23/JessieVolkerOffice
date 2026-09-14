@@ -52,7 +52,7 @@ export function Books2({
                 mesh.castShadow = true
                 mesh.receiveShadow = true
                 mesh.frustumCulled = false
-                if (mesh.geometry) mesh.geometry.computeVertexNormals()
+                if (mesh.geometry && !mesh.geometry.attributes.normal) mesh.geometry.computeVertexNormals()
                 mesh.material = material
             }
         })
@@ -70,7 +70,7 @@ export function Books2({
         }
         if (Array.isArray(scale)) return scale
         if (typeof scale === 'number') return [scale, scale, scale]
-        return
+        return [1, 1, 1]
     }, [clonedScene, targetHeight, scale])
 
     return (

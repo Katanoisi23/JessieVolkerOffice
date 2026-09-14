@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from 'react'
 import { useGLTF, Center } from '@react-three/drei'
 import * as THREE from 'three'
+import { useOfficeStore } from '../../stores/useOfficeStore'
 
 interface DeskLampProps {
     modelPath?: string
@@ -9,6 +10,8 @@ interface DeskLampProps {
     targetHeight?: number
     lightColor?: string
     lightIntensity?: number
+    controlledByRoomLight?: boolean
+    castShadow?: boolean
 }
 
 export function DeskLamp({
@@ -16,10 +19,17 @@ export function DeskLamp({
     position = [0, 0, 0],
     rotation = [0, 0, 0],
     targetHeight = 0.45,
-    lightColor = '#817e47ff', // Теплый оттенок света
+    lightColor = '#ffe2b8', // Теплый мягкий свет лампы
     lightIntensity = 3.5,
+    controlledByRoomLight = true,
+    castShadow = false,
 }: DeskLampProps) {
-    const [isOn, setIsOn] = useState(true)
+    const isRoomLightOn = useOfficeStore((state) => state.isRoomLightOn)
+    const [localIsOn, setLocalIsOn] = useState(true)
+
+    // Приоритет общего выключателя света комнаты
+    const active = controlledByRoomLight ? isRoomLightOn : localIsOn
+
     const { scene } = useGLTF(modelPath)
     const clonedScene = useMemo(() => scene.clone(true), [scene])
 
@@ -27,7 +37,7 @@ export function DeskLamp({
         clonedScene.traverse((child) => {
             if ((child as THREE.Mesh).isMesh) {
                 const mesh = child as THREE.Mesh
-                mesh.castShadow = true
+                mesh.castShadow = castShadow
                 mesh.receiveShadow = true
                 mesh.frustumCulled = false
                 if (mesh.geometry) {
@@ -35,7 +45,7 @@ export function DeskLamp({
                 }
             }
         })
-    }, [clonedScene])
+    }, [clonedScene, castShadow])
 
     const computedScale = useMemo(() => {
         const box = new THREE.Box3().setFromObject(clonedScene)
@@ -51,7 +61,9 @@ export function DeskLamp({
             rotation={rotation}
             onClick={(e) => {
                 e.stopPropagation()
-                setIsOn(!isOn) // Включение/выключение по клику
+                if (!controlledByRoomLight) {
+                    setLocalIsOn(!localIsOn)
+                }
             }}
         >
             <group scale={computedScale}>
@@ -60,22 +72,27 @@ export function DeskLamp({
                 </Center>
             </group>
 
-            {/* Источник света от лампы */}
-            {isOn && (
+            {/* Источник света от лампы (горит только при включенном свете) */}
+            {active ? (
                 <group position={[0, targetHeight * 0.55, 0.08]}>
                     <pointLight
                         color={lightColor}
                         intensity={lightIntensity}
                         distance={3.5}
                         decay={2}
-                        castShadow
-                        shadow-bias={-0.0001}
-                        shadow-mapSize={[1024, 1024]}
                     />
                     {/* Светящаяся колба лампочки */}
                     <mesh>
                         <sphereGeometry args={[0.02, 26, 16]} />
                         <meshBasicMaterial color={lightColor} />
+                    </mesh>
+                </group>
+            ) : (
+                <group position={[0, targetHeight * 0.55, 0.08]}>
+                    {/* Выключенная матовая колба без свечения и пересвета Bloom */}
+                    <mesh>
+                        <sphereGeometry args={[0.018, 16, 16]} />
+                        <meshStandardMaterial color="#2d2d30" roughness={0.9} />
                     </mesh>
                 </group>
             )}

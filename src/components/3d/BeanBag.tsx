@@ -56,7 +56,7 @@ export function BeanBag({
                 mesh.castShadow = true
                 mesh.receiveShadow = true
                 mesh.frustumCulled = false
-                if (mesh.geometry) mesh.geometry.computeVertexNormals()
+                if (mesh.geometry && !mesh.geometry.attributes.normal) mesh.geometry.computeVertexNormals()
                 mesh.material = material
             }
         })

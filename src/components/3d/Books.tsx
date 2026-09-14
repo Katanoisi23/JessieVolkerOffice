@@ -60,14 +60,14 @@ export function Books({
             metalness: 0.0,
         })
 
-        clonedScene.traverse((child) => {
+        clonedScene.traverse((child: THREE.Object3D) => {
             if ((child as THREE.Mesh).isMesh) {
                 const mesh = child as THREE.Mesh
                 mesh.castShadow = true
                 mesh.receiveShadow = true
                 mesh.frustumCulled = false
 
-                if (mesh.geometry) {
+                if (mesh.geometry && !mesh.geometry.attributes.normal) {
                     mesh.geometry.computeVertexNormals()
                 }
 
@@ -121,7 +121,7 @@ export function Books({
         }
         if (Array.isArray(scale)) return scale
         if (typeof scale === 'number') return [scale, scale, scale]
-        return
+        return [1, 1, 1]
     }, [clonedScene, targetHeight, scale])
 
     return (

@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 660" width="880" height="660">
+  <defs>
+    <!-- Картонная подложка крафт -->
+    <linearGradient id="kraft-grad-5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#cfc3af" />
+      <stop offset="50%" stop-color="#c5b7a2" />
+      <stop offset="100%" stop-color="#b8a994" />
+    </linearGradient>
+
+    <!-- Тень листа -->
+    <filter id="sheet-shadow-5" x="-6%" y="-6%" width="112%" height="114%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#3d3326" flood-opacity="0.3" />
+    </filter>
+
+    <!-- 3D выпечка -->
+    <radialGradient id="showcase-pastry" cx="45%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#fed7aa" />
+      <stop offset="25%" stop-color="#f59e0b" />
+      <stop offset="60%" stop-color="#b45309" />
+      <stop offset="85%" stop-color="#78350f" />
+      <stop offset="100%" stop-color="#451a03" />
+    </radialGradient>
+
+    <linearGradient id="showcase-ribbon" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="60%" stop-color="#fef08a" />
+      <stop offset="100%" stop-color="#fbbf24" />
+    </linearGradient>
+
+    <!-- Булавка -->
+    <radialGradient id="pin-head-5" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="40%" stop-color="#e2e8f0" />
+      <stop offset="85%" stop-color="#64748b" />
+      <stop offset="100%" stop-color="#334155" />
+    </radialGradient>
+  </defs>
+
+  <!-- 1. Крафтовая подложка -->
+  <rect x="0" y="0" width="880" height="660" rx="3" fill="url(#kraft-grad-5)" />
+  <rect x="0" y="0" width="880" height="660" rx="3" fill="none" stroke="#aa9b86" stroke-width="1.5" />
+
+  <!-- 2. Белый лист бумаги с полями -->
+  <g filter="url(#sheet-shadow-5)">
+    <rect x="35" y="35" width="810" height="590" rx="2" fill="#faf9f6" />
+    <rect x="35" y="35" width="810" height="590" rx="2" fill="none" stroke="#e8e4db" stroke-width="1" />
+  </g>
+
+  <!-- 3. Окно интерфейса витрины UI Graffico -->
+  <g transform="translate(45, 45)">
+    <!-- Красная верхняя панель навигации (как на фото) -->
+    <rect x="0" y="0" width="790" height="36" fill="#ef4444" />
+    <text x="25" y="23" font-family="'Montserrat', Arial, sans-serif" font-weight="900" font-size="14" fill="#ffffff" letter-spacing="2">GRAFFICO</text>
+    
+    <g transform="translate(420, 23)" font-family="Arial, sans-serif" font-size="11" font-weight="600" fill="#fee2e2">
+      <text x="0" y="0">BRAND</text>
+      <text x="65" y="0">COLLECTION</text>
+      <text x="165" y="0">AWARDS</text>
+      <text x="245" y="0">CONTACT</text>
+    </g>
+
+    <!-- Левая секция: Темный вьювер 3D артворка -->
+    <rect x="0" y="36" width="460" height="534" fill="#0c0c0e" />
+
+    <!-- Заголовок GRAFFICO -->
+    <text x="230" y="115" 
+          font-family="'Montserrat', 'Arial Black', sans-serif" 
+          font-weight="900" 
+          font-size="44" 
+          fill="#ffffff" 
+          text-anchor="middle" 
+          letter-spacing="4">
+      GRAFFICO
+    </text>
+
+    <!-- Центральный 3D артворк -->
+    <g transform="translate(230, 295)">
+      <ellipse cx="0" cy="0" rx="140" ry="46" fill="none" stroke="#f59e0b" stroke-width="1.2" opacity="0.35" transform="rotate(-18)" />
+      <ellipse cx="0" cy="0" rx="125" ry="38" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.45" transform="rotate(22)" />
+      <circle cx="0" cy="0" r="75" fill="#f59e0b" opacity="0.15" />
+
+      <!-- Выпечка -->
+      <path d="M-65 15 
+               C-75 -25, -40 -60, 0 -62 
+               C40 -60, 75 -25, 65 15 
+               C55 45, 20 58, 0 58 
+               C-20 58, -55 45, -65 15 Z" 
+            fill="url(#showcase-pastry)" />
+
+      <path d="M-50 -10 C-35 -40, -10 -48, 15 -42 C-10 -25, -30 -15, -50 -10" fill="#fde68a" opacity="0.6" />
+      <path d="M-25 10 C-10 -15, 20 -20, 45 -12 C20 0, -5 5, -25 10" fill="#fef3c7" opacity="0.75" />
+      <path d="M-40 25 C-15 35, 15 35, 40 20 C15 28, -15 28, -40 25" fill="#78350f" opacity="0.7" />
+
+      <!-- Лента глазури -->
+      <path d="M-75 -5 
+               C-50 -35, 0 -30, 50 -10 
+               C70 0, 55 35, 15 42 
+               C-25 48, -60 25, -45 -5 
+               C-35 -25, 10 -20, 45 -5" 
+            fill="none" 
+            stroke="url(#showcase-ribbon)" 
+            stroke-width="7" 
+            stroke-linecap="round" 
+            stroke-linejoin="round" />
+
+      <circle cx="-15" cy="-25" r="2" fill="#ffffff" opacity="0.9" />
+      <circle cx="20" cy="-15" r="2.5" fill="#ffffff" opacity="0.9" />
+      <circle cx="35" cy="5" r="1.8" fill="#ffffff" opacity="0.8" />
+    </g>
+
+    <!-- Правая секция: Панель палитры и плашки UI (как на фото) -->
+    <rect x="460" y="36" width="330" height="534" fill="#f1f3f5" />
+    
+    <g transform="translate(485, 65)">
+      <!-- 4 цветовые плашки в колонке (как на фото) -->
+      <text x="0" y="0" font-family="'Montserrat', Arial, sans-serif" font-weight="700" font-size="11" fill="#4b5563" letter-spacing="1.5">PALETTE TOKENS</text>
+
+      <!-- Плашка 1: Черный -->
+      <rect x="0" y="16" width="48" height="28" rx="3" fill="#18181b" stroke="#d1d5db" stroke-width="1" />
+      <text x="60" y="34" font-family="'Courier New', monospace" font-size="11" font-weight="bold" fill="#1f2937">#18181B • Deep Noir</text>
+
+      <!-- Плашка 2: Темно-зеленый / олива -->
+      <rect x="0" y="52" width="48" height="28" rx="3" fill="#243324" stroke="#d1d5db" stroke-width="1" />
+      <text x="60" y="70" font-family="'Courier New', monospace" font-size="11" font-weight="bold" fill="#1f2937">#243324 • Forest Olive</text>
+
+      <!-- Плашка 3: Светло-зеленый / мятный -->
+      <rect x="0" y="88" width="48" height="28" rx="3" fill="#86efac" stroke="#d1d5db" stroke-width="1" />
+      <text x="60" y="106" font-family="'Courier New', monospace" font-size="11" font-weight="bold" fill="#1f2937">#86EFAC • Soft Sage</text>
+
+      <!-- Плашка 4: Кремовый / белый -->
+      <rect x="0" y="124" width="48" height="28" rx="3" fill="#ffffff" stroke="#d1d5db" stroke-width="1" />
+      <text x="60" y="142" font-family="'Courier New', monospace" font-size="11" font-weight="bold" fill="#1f2937">#FFFFFF • Warm Ivory</text>
+
+      <!-- Разделитель -->
+      <line x1="0" y1="175" x2="280" y2="175" stroke="#e5e7eb" stroke-width="1" />
+
+      <!-- Карточка предпросмотра Graffico снизу справа (как на фото) -->
+      <g transform="translate(0, 195)">
+        <rect x="0" y="0" width="280" height="150" rx="4" fill="#0d0d10" />
+        <text x="140" y="45" font-family="'Montserrat', Arial, sans-serif" font-weight="900" font-size="18" fill="#ffffff" text-anchor="middle" letter-spacing="2">
+          GRAFFICO
+        </text>
+
+        <!-- Миниатюра круассана -->
+        <g transform="translate(140, 95) scale(0.55)">
+          <circle cx="0" cy="0" r="45" fill="#f59e0b" opacity="0.2" />
+          <path d="M-40 10 C-50 -15, -25 -40, 0 -42 C25 -40, 50 -15, 40 10 C30 30, 10 38, 0 38 C-10 38, -30 30, -40 10 Z" fill="url(#showcase-pastry)" />
+          <path d="M-45 -5 C-30 -25, 0 -20, 30 -5 C45 5, 35 25, 10 30" fill="none" stroke="url(#showcase-ribbon)" stroke-width="5" stroke-linecap="round" />
+        </g>
+      </g>
+    </g>
+  </g>
+
+  <!-- Булавки на белом листе (сверху) -->
+  <circle cx="310" cy="50" r="5" fill="url(#pin-head-5)" stroke="#475569" stroke-width="0.7" />
+  <circle cx="570" cy="50" r="5" fill="url(#pin-head-5)" stroke="#475569" stroke-width="0.7" />
+
+  <!-- Булавки по углам крафтовой основы -->
+  <circle cx="20" cy="20" r="7" fill="url(#pin-head-5)" stroke="#475569" stroke-width="0.8" />
+  <circle cx="860" cy="20" r="7" fill="url(#pin-head-5)" stroke="#475569" stroke-width="0.8" />
+  <circle cx="20" cy="640" r="7" fill="url(#pin-head-5)" stroke="#475569" stroke-width="0.8" />
+  <circle cx="860" cy="640" r="7" fill="url(#pin-head-5)" stroke="#475569" stroke-width="0.8" />
+</svg>

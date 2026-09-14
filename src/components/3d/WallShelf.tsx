@@ -1,4 +1,3 @@
-import * as THREE from 'three'
 
 interface WallShelfProps {
     position?: [number, number, number]

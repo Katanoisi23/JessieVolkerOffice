@@ -1,4 +1,3 @@
-import * as THREE from 'three'
 import { CustomModel } from './CustomModel'
 
 export function WindowNiche() {
