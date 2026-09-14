@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Experience } from './components/3d/Experience'
 import { LoadingScreen } from './components/ui/LoadingScreen'
 import { useOfficeStore } from './stores/useOfficeStore'
